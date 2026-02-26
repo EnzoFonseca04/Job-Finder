@@ -7,6 +7,18 @@ router.get('/test', (req, res) => {
     res.send('Teste de rota');
 });
 
+//detalhe da vaga
+router.get('/view/:id', (req, res) => Job.findOne({
+    where: {id: req.params.id},
+    raw: true
+ }).then(job =>{
+    res.render('view', {
+        job
+    })
+ }).catch(err => console.log(err))
+);
+
+//form da rota de envio
 router.get('/add', (req, res) => {
     res.render('add');
 });
@@ -14,13 +26,13 @@ router.get('/add', (req, res) => {
 // add job via post
 router.post('/add', (req, res) => {
 
-    let { title, descripition, salary, company, email, new_job } = req.body;
+    let { title, description, salary, company, email, new_job } = req.body;
 
 
     //insert
     Job.create({
         title,
-        descripition,
+        description,
         salary,
         company,
         email,
